@@ -1,0 +1,455 @@
+@import "tailwindcss";
+
+/* Scan our source explicitly (relative to this file) so utility generation is
+   independent of the process CWD — the dev server is launched from a sibling
+   directory on this machine. */
+@source "../**/*.{ts,tsx}";
+
+/* ===========================================================================
+   Helios Solar — Design System
+   Premium, futuristic, restrained. Deep-space canvas + a single electric-blue
+   accent; gold & green used only functionally (savings/success). All tokens
+   live here; components consume Tailwind utilities.
+   =========================================================================== */
+
+@theme {
+  /* --- Surfaces (warm charcoal — organic, earthy) --- */
+  --color-base: #0d0b08;
+  --color-surface: #181310;
+  --color-surface-2: #1e1810;
+  --color-elevated: #261e12;
+  --color-border: #2e2416;
+  --color-border-strong: #3d3020;
+
+  /* --- Text --- */
+  --color-foreground: #f8f4ee; /* warm near-white */
+  --color-muted: #b0a48c; /* warm taupe — AA on --color-base */
+  --color-faint: #7a6a52;
+
+  /* --- Emerald green accent (primary brand color) --- */
+  --color-accent: #16a34a;
+  --color-accent-hover: #22c55e;
+  --color-accent-deep: #15803d;
+  --color-accent-foreground: #052e16;
+  --color-accent-blue: #4ade80; /* light green gradient companion */
+
+  /* --- Functional accents (used sparingly, never decorative) --- */
+  --color-gold: #ffc857; /* premium signals: savings $ figures, star ratings */
+  --color-success: #22c55e; /* success / savings states only */
+  --color-danger: #f87171;
+
+  /* --- Typography --- */
+  --font-sans:
+    var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    Roboto, Helvetica, Arial, sans-serif;
+  --font-display:
+    var(--font-sora), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  /* --- Radii --- */
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-2xl: 2rem;
+
+  /* --- Easing --- */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* --- Section rhythm --- */
+  --spacing-section: 7rem;
+}
+
+/* --- Base layer ---------------------------------------------------------- */
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: 6rem; /* offset for sticky header on anchor jumps */
+  }
+
+  body {
+    background-color: var(--color-base);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background-color: color-mix(in srgb, var(--color-accent) 35%, transparent);
+    color: var(--color-foreground);
+  }
+
+  /* Visible, on-brand focus ring for keyboard users only. */
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  /* Respect user motion preference globally. */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* --- Utilities ----------------------------------------------------------- */
+@layer utilities {
+  /* Accessible skip-to-content link. */
+  .skip-link {
+    position: fixed;
+    top: -100%;
+    left: 1rem;
+    z-index: 100;
+    padding: 0.75rem 1.25rem;
+    border-radius: 0.75rem;
+    background: var(--color-accent);
+    color: var(--color-accent-foreground);
+    font-weight: 600;
+    transition: top 0.2s var(--ease-out-expo);
+  }
+  .skip-link:focus {
+    top: 1rem;
+  }
+
+  .text-gradient-brand {
+    background-image: linear-gradient(
+      100deg,
+      var(--color-accent) 0%,
+      var(--color-accent-blue) 70%,
+      var(--color-accent-hover) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Subtle electric glow used behind hero / focal elements. */
+  .bg-brand-glow {
+    background:
+      radial-gradient(
+        58% 50% at 70% 0%,
+        color-mix(in srgb, var(--color-accent) 16%, transparent) 0%,
+        transparent 70%
+      );
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  /* Flowing energy along a connector line (animated dashes). */
+  @keyframes energyFlow {
+    to {
+      stroke-dashoffset: -28;
+    }
+  }
+  .animate-energy {
+    stroke-dasharray: 4 10;
+    animation: energyFlow 1.1s linear infinite;
+  }
+
+  /* Tesla-style geometric sans (Gotham → Montserrat). */
+  .font-tesla {
+    font-family: var(--font-montserrat), "Helvetica Neue", Arial, sans-serif;
+  }
+
+  @keyframes bounceDown {
+    0%, 100% { transform: translateY(0); opacity: 0.55; }
+    50% { transform: translateY(7px); opacity: 1; }
+  }
+  .animate-bounce-down {
+    animation: bounceDown 1.8s ease-in-out infinite;
+  }
+
+  /* Glassmorphism surface for the floating dashboard / chips. */
+  .glass {
+    background: color-mix(in srgb, var(--color-surface) 55%, transparent);
+    backdrop-filter: blur(16px) saturate(140%);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+    border: 1px solid color-mix(in srgb, #ffffff 12%, transparent);
+    box-shadow:
+      0 24px 60px -24px rgba(0, 0, 0, 0.7),
+      inset 0 1px 0 0 color-mix(in srgb, #ffffff 10%, transparent);
+  }
+
+  @keyframes floatY {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  .animate-float {
+    animation: floatY 6s ease-in-out infinite;
+  }
+
+  @keyframes scrollCue {
+    0% { transform: translateY(0); opacity: 0; }
+    35% { opacity: 1; }
+    70% { transform: translateY(9px); opacity: 0; }
+    100% { opacity: 0; }
+  }
+  .animate-scrollcue {
+    animation: scrollCue 1.9s ease-in-out infinite;
+  }
+
+  /* Glowing pulse that travels the roof→battery energy path. */
+  @keyframes energyDot {
+    0% { offset-distance: 0%; opacity: 0; }
+    12% { opacity: 1; }
+    88% { opacity: 1; }
+    100% { offset-distance: 100%; opacity: 0; }
+  }
+  .animate-energy-dot {
+    offset-rotate: 0deg;
+    animation: energyDot 2.6s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  .bg-grid {
+    background-image:
+      linear-gradient(to right, var(--color-border) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--color-border) 1px, transparent 1px);
+    background-size: 64px 64px;
+    -webkit-mask-image: radial-gradient(
+      ellipse 80% 60% at 50% 0%,
+      #000 40%,
+      transparent 100%
+    );
+    mask-image: radial-gradient(
+      ellipse 80% 60% at 50% 0%,
+      #000 40%,
+      transparent 100%
+    );
+  }
+
+  /* -----------------------------------------------------------------------
+     Hero motion scene (photo backdrop, parallax, aurora, dust, cards)
+     --------------------------------------------------------------------- */
+
+  /* Ken Burns slow zoom */
+  @keyframes ken-burns {
+    from { transform: scale(1.06) translate3d(0, 0, 0); }
+    to   { transform: scale(1.17) translate3d(-1.5%, -1.3%, 0); }
+  }
+  .animate-ken {
+    transform: scale(1.06);
+    animation: ken-burns 30s var(--ease-out-expo) infinite alternate;
+  }
+
+  /* Aurora glow blobs */
+  @keyframes drift1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50%       { transform: translate(-4%, 5%) scale(1.12); }
+  }
+  @keyframes drift2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50%       { transform: translate(5%, -4%) scale(1.16); }
+  }
+  .hero-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(70px);
+    mix-blend-mode: screen;
+    opacity: 0.4;
+  }
+  .hero-blob-1 {
+    width: 46vw; height: 46vw;
+    right: 2%; top: 4%;
+    background: radial-gradient(circle,
+      color-mix(in srgb, var(--color-accent) 65%, transparent),
+      transparent 65%);
+    animation: drift1 14s ease-in-out infinite;
+  }
+  .hero-blob-2 {
+    width: 34vw; height: 34vw;
+    right: 18%; top: 30%;
+    background: radial-gradient(circle,
+      color-mix(in srgb, var(--color-accent-blue) 70%, transparent),
+      transparent 64%);
+    animation: drift2 18s ease-in-out infinite;
+    opacity: 0.35;
+  }
+  .hero-blob-3 {
+    width: 30vw; height: 30vw;
+    left: 6%; top: 38%;
+    background: radial-gradient(circle,
+      color-mix(in srgb, var(--color-accent) 40%, transparent),
+      transparent 66%);
+    animation: drift1 22s ease-in-out infinite reverse;
+    opacity: 0.25;
+  }
+
+  /* Film grain overlay */
+  .hero-grain {
+    opacity: 0.055;
+    mix-blend-mode: overlay;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* Eyebrow label */
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-montserrat), "Helvetica Neue", Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 3.5px;
+    text-transform: uppercase;
+    color: var(--color-accent);
+  }
+  .hero-eyebrow::before {
+    content: "";
+    flex-shrink: 0;
+    width: 32px;
+    height: 2px;
+    background: var(--color-accent);
+  }
+
+  /* Headline gradient word */
+  @keyframes grad-flow {
+    0%, 100% { background-position: 0% 50%; }
+    50%       { background-position: 100% 50%; }
+  }
+  .hero-grad {
+    background: linear-gradient(100deg,
+      var(--color-accent),
+      var(--color-accent-blue),
+      var(--color-accent-hover),
+      var(--color-accent));
+    background-size: 300% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: grad-flow 6s ease-in-out infinite;
+  }
+
+  /* Hero CTA buttons */
+  .hero-btn-primary {
+    display: inline-flex;
+    align-items: center;
+    font-family: var(--font-montserrat), "Helvetica Neue", Arial, sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    border-radius: 999px;
+    padding: 15px 30px;
+    text-decoration: none;
+    background: linear-gradient(135deg, var(--color-accent-hover), var(--color-accent));
+    color: var(--color-accent-foreground);
+    transition: transform .2s var(--ease-out-expo), box-shadow .25s;
+  }
+  .hero-btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 40px rgba(22, 163, 74, .40);
+  }
+  .hero-btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    font-family: var(--font-montserrat), "Helvetica Neue", Arial, sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    border-radius: 999px;
+    padding: 14px 30px;
+    text-decoration: none;
+    background: rgba(255,255,255,.08);
+    color: #fff;
+    border: 1px solid rgba(255,255,255,.40);
+    backdrop-filter: blur(6px);
+    transition: transform .2s var(--ease-out-expo), background .25s;
+  }
+  .hero-btn-ghost:hover {
+    background: rgba(255,255,255,.16);
+    transform: translateY(-3px);
+  }
+
+  /* Floating glass stat cards */
+  @keyframes card-in {
+    to { opacity: 1; }
+  }
+  @keyframes bob-float {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(-10px); }
+  }
+  .hero-card {
+    min-width: 200px;
+    padding: 20px 22px;
+    border-radius: 18px;
+    background: linear-gradient(180deg,
+      rgba(255,255,255,.13),
+      rgba(255,255,255,.05));
+    border: 1px solid rgba(255,255,255,.18);
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    box-shadow: 0 18px 50px rgba(0,0,0,.32);
+    opacity: 0;
+  }
+
+  /* Scroll indicator */
+  @keyframes scroll-rise {
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero-scroll-cue {
+    opacity: 0;
+    transform: translateY(8px);
+    animation: scroll-rise 1s var(--ease-out-expo) 1.3s forwards;
+  }
+  @keyframes chev-bob {
+    0%, 100% { transform: rotate(45deg) translate(0, 0); opacity: .45; }
+    50%       { transform: rotate(45deg) translate(4px, 4px); opacity: 1; }
+  }
+  .hero-chev {
+    display: block;
+    width: 18px;
+    height: 18px;
+    border-right: 2px solid rgba(255,255,255,.75);
+    border-bottom: 2px solid rgba(255,255,255,.75);
+    transform: rotate(45deg);
+    animation: chev-bob 1.8s ease-in-out infinite;
+  }
+
+  /* Reduced-motion overrides for the whole hero scene */
+  @media (prefers-reduced-motion: reduce) {
+    .animate-ken,
+    .hero-blob,
+    .hero-grad,
+    .hero-chev {
+      animation: none !important;
+    }
+    .hero-card {
+      opacity: 1 !important;
+      animation: none !important;
+    }
+    .hero-scroll-cue {
+      opacity: 1 !important;
+      transform: none !important;
+      animation: none !important;
+    }
+  }
+}
