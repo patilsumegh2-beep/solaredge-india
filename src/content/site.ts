@@ -5,8 +5,10 @@
  * Keep this file free of secrets — it ships to the browser.
  */
 
+const _envUrl = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "");
+const _isValidUrl = _envUrl && /^https?:\/\//.test(_envUrl);
 export const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
+  (_isValidUrl ? _envUrl : null) ||
   "https://solaredgeindia.example.com";
 
 export type NavItem = { label: string; href: string };
