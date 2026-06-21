@@ -6,7 +6,7 @@
  */
 
 export const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ??
+  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
   "https://solaredgeindia.example.com";
 
 export type NavItem = { label: string; href: string };

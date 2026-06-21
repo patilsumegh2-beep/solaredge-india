@@ -5,7 +5,7 @@ import { site, SITE_URL } from "@/content/site";
  * Base metadata shared across all routes. Individual pages spread/override.
  */
 export const baseMetadata: Metadata = {
-  metadataBase: new URL(SITE_URL),
+  metadataBase: new URL(SITE_URL || "https://localhost:3000"),
   title: {
     default: `${site.name} — Premium Residential & Commercial Solar`,
     template: `%s | ${site.name}`,
