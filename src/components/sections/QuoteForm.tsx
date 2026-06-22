@@ -243,25 +243,25 @@ export function QuoteForm() {
                     >
                       <div className="relative">
                         <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-muted">
-                          $
+                          ₹
                         </span>
                         <input
                           id="monthlyBill"
                           type="number"
                           inputMode="numeric"
                           className={inputCls + " pl-7"}
-                          placeholder="180"
+                          placeholder="1500"
                           value={data.monthlyBill}
                           onChange={(e) => set("monthlyBill", e.target.value)}
                           aria-invalid={Boolean(errors.monthlyBill)}
                         />
                       </div>
                     </Field>
-                    <Field label="ZIP code" htmlFor="zip" error={errors.zip}>
+                    <Field label="PIN code" htmlFor="zip" error={errors.zip}>
                       <input
                         id="zip"
                         className={inputCls}
-                        placeholder="92101"
+                        placeholder="110001"
                         value={data.zip}
                         onChange={(e) => set("zip", e.target.value)}
                         aria-invalid={Boolean(errors.zip)}
@@ -312,7 +312,7 @@ export function QuoteForm() {
                         id="name"
                         className={inputCls}
                         autoComplete="name"
-                        placeholder="Jordan Rivera"
+                        placeholder="Rahul Sharma"
                         value={data.name}
                         onChange={(e) => set("name", e.target.value)}
                         aria-invalid={Boolean(errors.name)}
@@ -336,7 +336,7 @@ export function QuoteForm() {
                         type="tel"
                         className={inputCls}
                         autoComplete="tel"
-                        placeholder="(619) 555-0142"
+                        placeholder="+91 98765 43210"
                         value={data.phone}
                         onChange={(e) => set("phone", e.target.value)}
                         aria-invalid={Boolean(errors.phone)}

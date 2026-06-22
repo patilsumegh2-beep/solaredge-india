@@ -2,6 +2,7 @@ import { site } from "@/content/site";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/motion/Reveal";
 
+
 export function Testimonials() {
   return (
     <section id="case-studies" className="scroll-mt-24 border-t border-border/60 py-24">
@@ -11,7 +12,7 @@ export function Testimonials() {
             Real results
           </p>
           <h2 className="mt-3 text-balance text-4xl font-bold lg:text-5xl">
-            San Diego homeowners, in their own words.
+            Delhi NCR homeowners, in their own words.
           </h2>
         </Reveal>
 

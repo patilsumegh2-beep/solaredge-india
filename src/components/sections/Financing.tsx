@@ -18,7 +18,7 @@ export function Financing() {
         </Reveal>
         <Reveal delay={0.1}>
           <p className="mt-5 text-lg leading-relaxed text-muted">
-            Most homeowners start with $0 down. Choose the path to ownership that
+            Most homeowners start with ₹0 down. Choose the path to ownership that
             makes the most sense for you.
           </p>
         </Reveal>

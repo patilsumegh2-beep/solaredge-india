@@ -21,23 +21,23 @@ const SUN_OPTIONS: { value: Sun; label: string }[] = [
  * to the form so the visitor never re-enters it.
  */
 export function SavingsCalculator() {
-  const [bill, setBill] = useState(180);
+  const [bill, setBill] = useState(1500);
   const [sun, setSun] = useState<Sun>("medium");
 
   const result = useMemo(() => {
     const annualBill = bill * 12;
     const sunFactor = sun === "high" ? 1.15 : sun === "low" ? 0.85 : 1;
-    const annualSavings = Math.round(annualBill * 0.92 * sunFactor);
+    const annualSavings = Math.round(annualBill * 0.88 * sunFactor);
     const systemKw =
-      Math.round(Math.min(20, Math.max(3, annualBill / 1100)) * 10) / 10;
-    const netCost = Math.round(systemKw * 2800 * 0.7); // after 30% federal credit
+      Math.round(Math.min(20, Math.max(2, annualBill / 6000)) * 10) / 10;
+    const netCost = Math.round(systemKw * 50000 * 0.7); // after PM Surya Ghar subsidy (~30%)
     const payback = Math.max(3, Math.round((netCost / annualSavings) * 10) / 10);
 
     let gross = 0;
     let yearly = annualSavings;
     for (let y = 0; y < 25; y++) {
       gross += yearly;
-      yearly *= 1.035; // utility-rate inflation
+      yearly *= 1.06; // DISCOM tariff inflation
     }
     return {
       annualSavings,
@@ -90,24 +90,24 @@ export function SavingsCalculator() {
                 Average monthly electric bill
               </span>
               <span className="text-2xl font-bold text-foreground">
-                ${bill}
+                ₹{bill}
               </span>
             </label>
             <input
               id="bill"
               type="range"
-              min={50}
-              max={600}
-              step={5}
+              min={500}
+              max={10000}
+              step={100}
               value={bill}
               onChange={(e) => setBill(Number(e.target.value))}
               className="mt-4 w-full cursor-pointer"
               style={{ accentColor: "var(--color-accent)" }}
-              aria-valuetext={`$${bill} per month`}
+              aria-valuetext={`₹${bill} per month`}
             />
             <div className="mt-1 flex justify-between text-xs text-faint">
-              <span>$50</span>
-              <span>$600+</span>
+              <span>₹500</span>
+              <span>₹10,000+</span>
             </div>
 
             <fieldset className="mt-8">
@@ -142,7 +142,7 @@ export function SavingsCalculator() {
             </p>
             <AnimatedNumber
               value={result.lifetime}
-              prefix="$"
+              prefix="₹"
               className="mt-1 block text-5xl font-extrabold tracking-tight text-gold sm:text-6xl"
             />
 
@@ -151,7 +151,7 @@ export function SavingsCalculator() {
                 <dt className="text-xs text-muted">Annual savings</dt>
                 <AnimatedNumber
                   value={result.annualSavings}
-                  prefix="$"
+                  prefix="₹"
                   className="text-2xl font-bold text-success"
                 />
               </div>
@@ -169,7 +169,7 @@ export function SavingsCalculator() {
               </div>
               <div>
                 <dt className="text-xs text-muted">Upfront cost</dt>
-                <dd className="text-2xl font-bold text-foreground">$0 down</dd>
+                <dd className="text-2xl font-bold text-foreground">₹0 down</dd>
               </div>
             </dl>
 
@@ -177,8 +177,8 @@ export function SavingsCalculator() {
               Get my exact quote →
             </Button>
             <p className="mt-3 text-center text-xs text-faint">
-              Estimate only, based on typical local production and a 30% federal
-              tax credit. Your custom quote will be exact.
+              Estimate only, based on typical local production and PM Surya Ghar
+              subsidy. Your custom quote will be exact.
             </p>
           </div>
         </div>
